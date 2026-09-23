@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIND HACK – Scorecard & Performance Analysis</title>
+  
+  <!-- Google Fonts: Poppins & Orbitron -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Cyberpunk Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id="resultDashboardRoot">
+
+  <!-- Top Navigation Header -->
+  <header class="glass-nav py-3 sticky-top">
+    <div class="container d-flex align-items-center justify-content-between">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-box">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div>
+          <h1 class="brand-title">MIND HACK</h1>
+          <span class="brand-subtitle">Performance Evaluation</span>
+        </div>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="cyber-btn cyber-btn-outline py-2 px-3 fs-6" id="printReportBtn">
+          <i class="fa-solid fa-print"></i> <span class="d-none d-sm-inline">Print Slip</span>
+        </button>
+        <a href="index.html" class="cyber-btn cyber-btn-outline py-2 px-3 fs-6">
+          <i class="fa-solid fa-house"></i> <span class="d-none d-sm-inline">Home</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Result Dashboard Main Section -->
+  <main class="py-5">
+    <div class="container">
+      
+      <!-- Auto-submit notification banner if applicable -->
+      <div class="alert alert-warning border-warning border-opacity-50 text-warning d-none text-center mb-4" id="autoSubmitNotice">
+        <i class="fa-solid fa-clock-rotate-left me-2"></i> Challenge was automatically submitted when the 20-minute timer reached 00:00.
+      </div>
+
+      <!-- Hero Section: Trophy & Score Ring -->
+      <div class="result-hero">
+        <div class="trophy-glow">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+
+        <h2 class="font-display fw-bold mb-2">
+          CHALLENGE <span class="text-gradient-cyan">COMPLETED!</span>
+        </h2>
+        
+        <div>
+          <span class="performance-tier tier-grandmaster" id="tierBadge">
+            CYBER GRANDMASTER
+          </span>
+        </div>
+
+        <!-- Team Name & ID Display Badge -->
+        <div class="mt-3 mb-2 p-2 px-4 rounded bg-dark border border-secondary border-opacity-25 d-inline-flex align-items-center gap-2 font-display">
+          <i class="fa-solid fa-users text-neon-cyan"></i>
+          <span class="text-secondary small text-uppercase">Team:</span>
+          <span class="text-light fw-bold fs-5" id="resultTeamName">--</span>
+          <span class="text-neon-cyan small font-mono ms-2" id="resultTeamId">(TEAM-2026)</span>
+        </div>
+
+        <p class="text-secondary max-w-600 mx-auto mb-4" id="tierMessage">
+          Outstanding cognitive speed and analytical acuity!
+        </p>
+
+        <!-- Circular SVG Score Indicator -->
+        <div class="score-circle-box">
+          <svg class="score-svg" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00f2fe" />
+                <stop offset="100%" stop-color="#7928ca" />
+              </linearGradient>
+            </defs>
+            <circle class="score-svg-bg" cx="100" cy="100" r="85"></circle>
+            <circle class="score-svg-progress" id="scoreSvgProgress" cx="100" cy="100" r="85"></circle>
+          </svg>
+          <div class="score-circle-content">
+            <div class="score-number" id="scoreValue">--</div>
+            <div class="score-total-label">OUT OF 50</div>
+            <div class="text-neon-cyan fw-bold mt-1" id="percentageValue">--%</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Core Metrics Cards -->
+      <div class="row g-3 mb-5">
+        <!-- Total Questions -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stat-card">
+            <div class="stat-icon text-neon-cyan"><i class="fa-solid fa-list-check"></i></div>
+            <div class="stat-value" id="metricTotal">50</div>
+            <div class="stat-label">Total Questions</div>
+          </div>
+        </div>
+
+        <!-- Correct Answers -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stat-card">
+            <div class="stat-icon text-success"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="stat-value text-success" id="metricCorrect">--</div>
+            <div class="stat-label">Correct</div>
+          </div>
+        </div>
+
+        <!-- Wrong Answers -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stat-card">
+            <div class="stat-icon text-danger"><i class="fa-solid fa-circle-xmark"></i></div>
+            <div class="stat-value text-danger" id="metricWrong">--</div>
+            <div class="stat-label">Wrong</div>
+          </div>
+        </div>
+
+        <!-- Skipped / Unanswered -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stat-card">
+            <div class="stat-icon text-warning"><i class="fa-solid fa-bookmark"></i></div>
+            <div class="stat-value text-warning" id="metricSkipped">--</div>
+            <div class="stat-label">Skipped</div>
+          </div>
+        </div>
+
+        <!-- Time Used -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stat-card">
+            <div class="stat-icon text-info"><i class="fa-solid fa-stopwatch"></i></div>
+            <div class="stat-value" id="metricTime">--:--</div>
+            <div class="stat-label">Time Used</div>
+          </div>
+        </div>
+
+        <!-- Average Speed -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="stat-card">
+            <div class="stat-icon text-primary"><i class="fa-solid fa-gauge-high"></i></div>
+            <div class="stat-value" id="metricAvgTime">--s</div>
+            <div class="stat-label">Avg / Question</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons Row (College Arena: Single Attempt Locked) -->
+      <div class="d-flex flex-wrap justify-content-center align-items-center gap-3 mb-5">
+        <span class="badge bg-secondary bg-opacity-25 border border-secondary text-secondary px-4 py-3 fs-6 font-display d-inline-flex align-items-center" id="officialAttemptBadge">
+          <i class="fa-solid fa-lock text-warning me-2"></i> OFFICIAL ATTEMPT RECORDED • SINGLE ATTEMPT ONLY
+        </span>
+        <button type="button" class="cyber-btn cyber-btn-outline px-4 py-3" id="homeBtn">
+          <i class="fa-solid fa-house"></i> BACK TO HOME
+        </button>
+        <button type="button" class="cyber-btn cyber-btn-primary px-4 py-3" onclick="window.print();">
+          <i class="fa-solid fa-print"></i> PRINT PERFORMANCE SLIP
+        </button>
+      </div>
+
+      <!-- Step-by-Step Question Review Accordion -->
+      <div class="glass-panel p-4 p-md-5">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+          <div>
+            <h3 class="font-display fw-bold mb-1">
+              DETAILED <span class="text-gradient-cyan">QUESTION ANALYSIS</span>
+            </h3>
+            <p class="text-muted small mb-0">Click on any question to examine your answer and the step-by-step logical explanation</p>
+          </div>
+
+          <!-- Filter Pills -->
+          <div class="review-filter-bar mb-0">
+            <button type="button" class="filter-btn active" data-filter="all">All (50)</button>
+            <button type="button" class="filter-btn" data-filter="correct">Correct</button>
+            <button type="button" class="filter-btn" data-filter="wrong">Wrong</button>
+            <button type="button" class="filter-btn" data-filter="skipped">Skipped</button>
+          </div>
+        </div>
+
+        <!-- Container for dynamically rendered accordion items -->
+        <div id="reviewListContainer">
+          <!-- Rendered dynamically by script.js -->
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Clean Footer -->
+  <footer class="cyber-footer">
+    <div class="container text-center">
+      <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+        <i class="fa-solid fa-brain text-neon-cyan"></i>
+        <span class="font-display fw-bold text-light">MIND HACK</span>
+        <span>— Brain Challenge Competition</span>
+      </div>
+      <p class="mb-0 text-muted small">
+        Round 1 • 20 Minutes • 50 Questions • Built with HTML5, CSS3, Vanilla JavaScript & Bootstrap 5
+      </p>
+    </div>
+  </footer>
+
+  <!-- Question Database & Game Logic (Local first, loads instantly) -->
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+
+  <!-- Optional Bootstrap Bundle JS (Deferred, non-blocking) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+</body>
+</html>

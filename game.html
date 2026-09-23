@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIND HACK – Live Challenge Arena | Round 1</title>
+  
+  <!-- Google Fonts: Poppins & Orbitron -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Cyberpunk Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id="gameArenaRoot">
+
+  <!-- Sticky Competition Header Bar -->
+  <header class="glass-nav py-2 sticky-top">
+    <div class="container-fluid px-lg-4 d-flex align-items-center justify-content-between">
+      
+      <!-- Logo & Round Tag -->
+      <a href="index.html" class="brand-logo" onclick="return confirm('Warning: Navigating away will not pause your 20-minute timer. Continue?');">
+        <div class="brand-icon-box" style="width: 38px; height: 38px; font-size: 1.2rem;">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div class="d-none d-sm-block">
+          <h2 class="brand-title" style="font-size: 1.15rem;">MIND HACK</h2>
+          <span class="brand-subtitle" style="font-size: 0.65rem;">Round 1 Arena</span>
+        </div>
+      </a>
+
+      <!-- Countdown Timer Pill & Anti-Cheat Tab Monitor -->
+      <div class="d-flex align-items-center gap-2">
+        <div class="timer-container" id="timerContainer">
+          <i class="fa-regular fa-clock timer-icon"></i>
+          <div class="timer-display" id="timerDisplay">20:00</div>
+        </div>
+
+        <div class="tab-counter-badge d-none d-sm-inline-flex" id="tabSwitchCounter" title="Anti-Cheat Monitor: Leaving window triggers immediate elimination">
+          <i class="fa-solid fa-shield-halved text-neon-cyan"></i>
+          <span>Anti-Cheat: <strong class="text-neon-green">Active (Zero Tab Switch Tolerance)</strong></span>
+        </div>
+      </div>
+
+      <!-- Header Tools & Submit -->
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn-icon-square" id="soundToggleBtn" onclick="if(window.gameArenaInstance) window.gameArenaInstance.toggleSound();" title="Toggle Sound">
+          <i class="fa-solid fa-volume-high"></i>
+        </button>
+        <button type="button" class="btn-icon-square d-none d-md-inline-flex" id="fullscreenBtn" onclick="if(window.gameArenaInstance) window.gameArenaInstance.toggleFullscreen();" title="Toggle Fullscreen">
+          <i class="fa-solid fa-expand"></i>
+        </button>
+        <button type="button" class="cyber-btn cyber-btn-outline py-2 px-3 fs-6 ms-1" id="quickSubmitBtn" onclick="if(window.gameArenaInstance) window.gameArenaInstance.openSubmitModal();">
+          <i class="fa-solid fa-flag-checkered text-neon-green"></i>
+          <span class="d-none d-sm-inline">Finish</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Quiz Arena Main Layout -->
+  <main class="quiz-wrapper flex-grow-1">
+    <div class="container-fluid px-lg-4">
+      
+      <!-- Subbar: Question Counter, Category & Progress -->
+      <div class="quiz-subbar">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+          <div class="d-flex align-items-center gap-3">
+            <span class="font-display fw-bold text-neon-cyan fs-5" id="currentQuestionNum">
+              Question 1 of 50
+            </span>
+            <span class="category-badge" id="categoryBadge">
+              <i class="fa-solid fa-brain me-1"></i> Logic Puzzles
+            </span>
+            <span class="difficulty-badge badge-medium" id="difficultyBadge">
+              Medium
+            </span>
+          </div>
+
+          <div class="text-secondary small font-display" id="answeredCountText">
+            0 / 50 Answered
+          </div>
+        </div>
+
+        <!-- Animated Progress Bar -->
+        <div class="progress-track">
+          <div class="progress-fill" id="quizProgressBar"></div>
+        </div>
+      </div>
+
+      <!-- Two-Column Quiz Grid -->
+      <div class="row g-4">
+        
+        <!-- Left / Main Column: Question & Options Card -->
+        <div class="col-lg-8 col-xl-9">
+          <div class="question-card">
+            
+            <!-- Question Text Body -->
+            <div class="question-text" id="questionText">
+              Loading question...
+            </div>
+
+            <!-- Options Container -->
+            <div class="options-list" id="optionsContainer">
+              <!-- Rendered dynamically by script.js -->
+            </div>
+
+            <!-- Question Action Controls Footer -->
+            <div class="quiz-actions mt-auto">
+              <div class="quiz-actions-left">
+                <button type="button" class="cyber-btn cyber-btn-outline" id="prevBtn" onclick="if(window.gameArenaInstance) window.gameArenaInstance.goToPreviousQuestion();" disabled>
+                  <i class="fa-solid fa-chevron-left"></i> Previous
+                </button>
+                <button type="button" class="cyber-btn cyber-btn-outline" id="skipBtn" onclick="if(window.gameArenaInstance) window.gameArenaInstance.toggleSkipMark();">
+                  <i class="fa-regular fa-bookmark"></i> Skip / Mark
+                </button>
+                <button type="button" class="cyber-btn cyber-btn-outline" id="clearBtn" onclick="if(window.gameArenaInstance) window.gameArenaInstance.clearSelection();" title="Clear chosen answer">
+                  <i class="fa-solid fa-eraser"></i> Clear
+                </button>
+              </div>
+
+              <div class="quiz-actions-right">
+                <button type="button" class="cyber-btn cyber-btn-primary" id="nextBtn" onclick="if(window.gameArenaInstance) window.gameArenaInstance.goToNextQuestion();">
+                  <span>Next</span> <i class="fa-solid fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Column: Question Navigation Palette & Stats -->
+        <div class="col-lg-4 col-xl-3">
+          <div class="palette-card sticky-top" style="top: 80px;">
+            
+            <div class="palette-title">
+              <span><i class="fa-solid fa-grip-vertical text-neon-cyan me-2"></i> Question Grid</span>
+              <span class="badge bg-secondary bg-opacity-25 text-light small">50 Total</span>
+            </div>
+
+            <!-- Number Buttons Grid (1 to 50) -->
+            <div class="palette-grid" id="paletteGrid">
+              <!-- Rendered dynamically (1 to 50) -->
+            </div>
+
+            <!-- Palette Status Legend -->
+            <div class="palette-legend">
+              <div class="legend-item">
+                <div class="legend-indicator legend-answered"></div>
+                <span>Answered</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-indicator legend-marked"></div>
+                <span>Marked / Skipped</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-indicator legend-current"></div>
+                <span>Current Question</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-indicator legend-unvisited"></div>
+                <span>Unvisited</span>
+              </div>
+            </div>
+
+            <!-- Keyboard Shortcuts Helper Chip -->
+            <div class="mt-4 pt-3 border-top border-secondary border-opacity-25 small text-secondary">
+              <div class="fw-bold mb-2 text-light"><i class="fa-regular fa-keyboard me-1 text-neon-cyan"></i> Keyboard Shortcuts</div>
+              <div class="d-flex justify-content-between mb-1">
+                <span>Select A, B, C, D:</span>
+                <div>
+                  <span class="shortcut-chip">1</span>
+                  <span class="shortcut-chip">2</span>
+                  <span class="shortcut-chip">3</span>
+                  <span class="shortcut-chip">4</span>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mb-1">
+                <span>Navigate Next / Prev:</span>
+                <div>
+                  <span class="shortcut-chip">&rarr;</span>
+                  <span class="shortcut-chip">&larr;</span>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span>Mark / Skip:</span>
+                <span class="shortcut-chip">S</span>
+              </div>
+            </div>
+
+            <!-- Final Submit Button -->
+            <div class="mt-4">
+              <button type="button" class="cyber-btn cyber-btn-success w-100" id="submitBtn" onclick="if(window.gameArenaInstance) window.gameArenaInstance.openSubmitModal();">
+                <i class="fa-solid fa-check-double"></i> Submit Challenge
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- 5-Minute Warning Modal -->
+  <div class="modal fade" id="fiveMinWarningModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-color: #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title font-display text-warning">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i> 5 Minutes Remaining!
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="ModalHelper.hide('fiveMinWarningModal');" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-4 text-center">
+          <div class="fs-1 text-warning mb-3">
+            <i class="fa-regular fa-hourglass-half fa-bounce"></i>
+          </div>
+          <p class="fs-5 fw-semibold text-light mb-2">Time is running short.</p>
+          <p class="text-secondary small mb-0">
+            You have 5 minutes left to complete your answers. Review marked questions using the question grid on the right.
+          </p>
+        </div>
+        <div class="modal-footer border-0 pt-0 justify-content-center">
+          <button type="button" class="cyber-btn cyber-btn-warning px-4" data-bs-dismiss="modal" onclick="ModalHelper.hide('fiveMinWarningModal');">
+            Continue Challenge
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Submit Confirmation Modal -->
+  <div class="modal fade" id="submitConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font-display text-neon-cyan">
+            <i class="fa-solid fa-flag-checkered me-2"></i> Confirm Final Submission
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="ModalHelper.hide('submitConfirmModal');" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-4">
+          <p class="text-secondary mb-4">
+            Are you sure you want to submit your MIND HACK challenge? Once submitted, your score will be permanently calculated.
+          </p>
+          
+          <div class="row g-3 text-center mb-3">
+            <div class="col-4">
+              <div class="p-3 rounded bg-dark border border-secondary border-opacity-25">
+                <div class="fs-3 fw-bold text-success" id="modalAnsweredCount">0</div>
+                <div class="small text-muted text-uppercase">Answered</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="p-3 rounded bg-dark border border-secondary border-opacity-25">
+                <div class="fs-3 fw-bold text-warning" id="modalSkippedCount">0</div>
+                <div class="small text-muted text-uppercase">Marked</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="p-3 rounded bg-dark border border-secondary border-opacity-25">
+                <div class="fs-3 fw-bold text-danger" id="modalRemainingCount">50</div>
+                <div class="small text-muted text-uppercase">Unanswered</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="cyber-btn cyber-btn-outline" data-bs-dismiss="modal" onclick="ModalHelper.hide('submitConfirmModal');">Keep Solving</button>
+          <button type="button" class="cyber-btn cyber-btn-primary" id="confirmSubmitBtn" onclick="if(window.gameArenaInstance) window.gameArenaInstance.submitChallenge(false);">
+            Yes, Submit Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Time Up Modal -->
+  <div class="modal fade" id="timeUpModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center py-4" style="border-color: #ef4444; box-shadow: 0 0 40px rgba(239, 68, 68, 0.5);">
+        <div class="modal-body">
+          <div class="fs-1 text-danger mb-3">
+            <i class="fa-solid fa-hourglass-end fa-spin"></i>
+          </div>
+          <h3 class="font-display text-danger fw-bold mb-2">TIME EXPIRED!</h3>
+          <p class="text-secondary mb-3">The 20-minute competition limit has been reached.</p>
+          <div class="spinner-border text-danger mb-2" role="status"></div>
+          <p class="small text-muted">Calculating results and compiling scorecard...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Anti-Cheat Tab Switch Warning Modal (Strike 1 & Strike 2) -->
+  <div class="modal fade" id="tabWarningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-color: #f59e0b; box-shadow: 0 0 45px rgba(245, 158, 11, 0.45);">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title font-display text-warning" id="tabWarningStrikeTitle">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i> Tab Switch Warning (Strike 1/3)
+          </h5>
+        </div>
+        <div class="modal-body py-4 text-center">
+          <div class="fs-1 text-warning mb-3">
+            <i class="fa-solid fa-shield-halved fa-bounce"></i>
+          </div>
+          <p class="fs-5 fw-bold text-light mb-2" id="tabWarningMessage">
+            Tab Switch Detected! You navigated away from the Mind Hack challenge window.
+          </p>
+          <div class="alert alert-dark border-warning border-opacity-50 text-warning small my-3 text-start">
+            <div><i class="fa-solid fa-circle-exclamation me-1"></i> <strong>Anti-Cheat Policy:</strong> Mind Hack is an uninterrupted competitive challenge.</div>
+            <div class="mt-1">Each contestant is permitted a maximum of <strong>2 warnings</strong>. On the <strong>3rd tab switch</strong>, the system will <strong>AUTOMATICALLY ELIMINATE</strong> you immediately.</div>
+          </div>
+          <div class="badge bg-warning bg-opacity-25 text-warning px-3 py-2 font-display" id="tabWarningCounterText">
+            1 of 3 Strikes Used
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0 justify-content-center">
+          <button type="button" class="cyber-btn cyber-btn-warning px-4 py-2" data-bs-dismiss="modal" onclick="ModalHelper.hide('tabWarningModal');">
+            I Understand & Resume Challenge
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full-Screen Locked Elimination Overlay (Immediate Disqualification) -->
+  <div class="elimination-overlay d-none" id="eliminationOverlay">
+    <div class="elimination-card">
+      <div class="elimination-icon-box">
+        <i class="fa-solid fa-ban"></i>
+      </div>
+
+      <div class="badge bg-danger bg-opacity-25 border border-danger text-danger px-3 py-1 font-display text-uppercase mb-3">
+        Anti-Cheat System Termination
+      </div>
+
+      <h2 class="font-display fw-bold text-danger mb-1">
+        TEAM ELIMINATED!
+      </h2>
+
+      <div class="text-light fs-5 fw-bold mb-1" id="eliminatedCandidateName">
+        Team Alpha
+      </div>
+      <div class="text-secondary small font-mono mb-3" id="eliminatedCandidateId">
+        Team ID: TEAM-2026-088
+      </div>
+
+      <p class="text-secondary" id="eliminationReasonText">
+        Your team has been automatically disqualified for switching browser tabs or leaving the examination window.
+      </p>
+
+      <!-- Audit timeline showing timestamp of switch -->
+      <div class="text-start">
+        <div class="small fw-bold text-danger text-uppercase font-display mb-1">
+          <i class="fa-solid fa-clock-rotate-left me-1"></i> Violation Audit Trail:
+        </div>
+        <div class="audit-timeline" id="eliminationAuditTimeline">
+          <!-- Populated by script.js -->
+        </div>
+      </div>
+
+      <div class="alert alert-dark border-danger border-opacity-40 text-secondary small text-start my-3">
+        <i class="fa-solid fa-triangle-exclamation text-danger me-1"></i> Under College Tech Arena selection rules, your challenge is permanently terminated and scores are forfeited.
+      </div>
+
+      <div class="alert alert-danger bg-danger bg-opacity-20 border-danger text-light small text-center my-3 py-2">
+        <div class="spinner-border text-danger spinner-border-sm me-2" role="status"></div>
+        <span id="eliminationRedirectText">Tab switch detected! Navigating to Disqualification Result Page...</span>
+      </div>
+
+      <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+        <a href="result.html" class="cyber-btn cyber-btn-danger px-4 py-2">
+          <i class="fa-solid fa-file-circle-xmark"></i> View Disqualification Notice
+        </a>
+        <a href="index.html" class="cyber-btn cyber-btn-outline px-4 py-2">
+          <i class="fa-solid fa-house"></i> Return to Home
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Question Database & Game Logic (Loaded first for immediate, local execution) -->
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+
+  <!-- Optional Bootstrap Bundle JS (Deferred, non-blocking) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+</body>
+</html>

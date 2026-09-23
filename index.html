@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIND HACK – Brain Challenge | Round 1</title>
+  
+  <!-- Google Fonts: Poppins & Orbitron -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Cyberpunk Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-brain-bg">
+
+  <!-- Top Navigation Header -->
+  <header class="glass-nav py-3 sticky-top">
+    <div class="container d-flex align-items-center justify-content-between">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-box">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div>
+          <h1 class="brand-title">MIND HACK</h1>
+          <span class="brand-subtitle">Round 1 • Brain Challenge</span>
+        </div>
+      </a>
+
+      <div class="d-flex align-items-center gap-2 gap-sm-3">
+        <span class="status-pill status-pill-live d-none d-md-inline-flex">
+          <span class="pulse-dot"></span> System Live
+        </span>
+        <a href="#rulesSection" class="cyber-btn cyber-btn-outline py-2 px-3 fs-6">
+          <i class="fa-solid fa-shield-halved"></i> Rules
+        </a>
+        <button type="button" class="cyber-btn cyber-btn-outline py-2 px-3 fs-6" id="openAdminLoginBtn" data-bs-toggle="modal" data-bs-target="#adminLoginModal">
+          <i class="fa-solid fa-lock text-neon-cyan me-1"></i> Admin
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Hero Section -->
+  <main>
+    <section class="hero-wrapper">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center">
+            
+            <div class="hero-badge-capsule">
+              <i class="fa-solid fa-microchip"></i> Cognitive Endurance Competition
+            </div>
+
+            <h1 class="hero-title">
+              MIND <span class="text-gradient-cyan">HACK</span>
+            </h1>
+
+            <p class="hero-tagline">
+              “Challenge Your Brain. Beat the Clock.”
+            </p>
+
+            <!-- 5 Core Categories Pill Bar -->
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+              <span class="badge bg-dark border border-secondary text-light px-3 py-2 fs-6">
+                🧠 Logic
+              </span>
+              <span class="badge bg-dark border border-secondary text-light px-3 py-2 fs-6">
+                🔢 Patterns
+              </span>
+              <span class="badge bg-dark border border-secondary text-light px-3 py-2 fs-6">
+                👀 Observation
+              </span>
+              <span class="badge bg-dark border border-secondary text-light px-3 py-2 fs-6">
+                🔐 Hidden Messages
+              </span>
+              <span class="badge bg-dark border border-secondary text-light px-3 py-2 fs-6">
+                🧩 Brain Teasers
+              </span>
+            </div>
+
+            <!-- Stats Banner -->
+            <div class="hero-stats-banner">
+              <div class="hero-stat-item text-neon-cyan font-display">
+                <i class="fa-regular fa-clock"></i> 20 MINUTES
+              </div>
+              <div class="hero-stat-divider">•</div>
+              <div class="hero-stat-item text-light font-display">
+                <i class="fa-solid fa-list-check"></i> 50 QUESTIONS
+              </div>
+              <div class="hero-stat-divider">•</div>
+              <div class="hero-stat-item text-neon-green font-display">
+                <i class="fa-solid fa-award"></i> INSTANT RESULTS
+              </div>
+            </div>
+
+            <!-- Large Start Challenge CTA Button -->
+            <div class="mt-2 mb-5 d-flex flex-wrap justify-content-center gap-3">
+              <button type="button" class="cyber-btn cyber-btn-primary fs-5 px-5 py-3 start-challenge-trigger" id="startChallengeBtn">
+                <i class="fa-solid fa-users-gear me-2"></i> REGISTER TEAM & ENTER ARENA
+              </button>
+              <a href="#rulesSection" class="cyber-btn cyber-btn-outline fs-5 px-4 py-3">
+                <i class="fa-solid fa-book-open"></i> Rules & How to Play
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Challenge Categories Showcase -->
+    <section class="py-5" id="categoriesSection">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="font-display fw-bold mb-2">
+            CHALLENGE <span class="text-gradient-cyan">CATEGORIES</span>
+          </h2>
+          <p class="text-muted">Explore the five core dimensions of cognitive problem solving</p>
+        </div>
+
+        <div class="row g-4">
+          <!-- 1. Logic -->
+          <div class="col-md-6 col-lg-4">
+            <div class="category-card">
+              <div class="category-icon-wrap">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <h4>Logic Puzzles</h4>
+              <p>Test deductive reasoning, truth-teller paradoxes, sequential relations, and syllogisms under tight time constraints.</p>
+            </div>
+          </div>
+
+          <!-- 2. Numbers & Patterns -->
+          <div class="col-md-6 col-lg-4">
+            <div class="category-card">
+              <div class="category-icon-wrap">
+                <i class="fa-solid fa-arrow-up-9-1"></i>
+              </div>
+              <h4>Number & Pattern</h4>
+              <p>Crack numerical series, magic squares, alternating operations, matrix equations, and prime progression sequences.</p>
+            </div>
+          </div>
+
+          <!-- 3. Observation -->
+          <div class="col-md-6 col-lg-4">
+            <div class="category-card">
+              <div class="category-icon-wrap">
+                <i class="fa-solid fa-eye"></i>
+              </div>
+              <h4>Observation Challenges</h4>
+              <p>Inspect visual palindromes, count 3D painted sub-cubes, spot anomalies, and calculate geometric configurations.</p>
+            </div>
+          </div>
+
+          <!-- 4. Hidden Messages -->
+          <div class="col-md-6 col-lg-6">
+            <div class="category-card">
+              <div class="category-icon-wrap">
+                <i class="fa-solid fa-key"></i>
+              </div>
+              <h4>Hidden Message Challenges</h4>
+              <p>Decipher Caesar shifts, mirror texts, acrostic spy phrases, Atbash ciphers, ASCII binary codes, and anagram secrets.</p>
+            </div>
+          </div>
+
+          <!-- 5. Brain Teasers -->
+          <div class="col-md-12 col-lg-6">
+            <div class="category-card">
+              <div class="category-icon-wrap">
+                <i class="fa-solid fa-puzzle-piece"></i>
+              </div>
+              <h4>Brain Teasers</h4>
+              <p>Solve high-stakes lateral thinking riddles, counter-intuitive river crossings, balance scale coin tests, and classic logic traps.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Play & Game Rules -->
+    <section class="py-5" id="rulesSection">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          
+          <!-- How to Play -->
+          <div class="col-lg-5">
+            <div class="glass-card p-4 p-md-5 h-100">
+              <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="brand-icon-box" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                  <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <h3 class="font-display fw-bold mb-0">HOW TO PLAY</h3>
+              </div>
+              
+              <div class="d-flex flex-column gap-3">
+                <div class="d-flex gap-3 align-items-start">
+                  <div class="rule-number"><i class="fa-solid fa-1"></i></div>
+                  <div class="rule-text">Click <strong>Start Challenge</strong> to initialize your timed 20-minute session.</div>
+                </div>
+                <div class="d-flex gap-3 align-items-start">
+                  <div class="rule-number"><i class="fa-solid fa-2"></i></div>
+                  <div class="rule-text">Select one of the 4 options using your mouse or keyboard shortcuts (<strong>1-4</strong> / <strong>A-D</strong>).</div>
+                </div>
+                <div class="d-flex gap-3 align-items-start">
+                  <div class="rule-number"><i class="fa-solid fa-3"></i></div>
+                  <div class="rule-text">Use the <strong>Question Palette</strong> to jump directly to any question at any moment.</div>
+                </div>
+                <div class="d-flex gap-3 align-items-start">
+                  <div class="rule-number"><i class="fa-solid fa-4"></i></div>
+                  <div class="rule-text">Submit when finished, or let the timer auto-submit at <strong>00:00</strong> for instant review.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Official Rules -->
+          <div class="col-lg-7">
+            <div class="rules-card">
+              <div class="d-flex align-items-center justify-content-between mb-4">
+                <div class="d-flex align-items-center gap-3">
+                  <i class="fa-solid fa-scale-balanced text-neon-cyan fs-3"></i>
+                  <h3 class="font-display fw-bold mb-0">CHALLENGE RULES</h3>
+                </div>
+                <span class="badge bg-warning bg-opacity-25 text-warning px-3 py-2">
+                  <i class="fa-solid fa-triangle-exclamation"></i> Mandatory
+                </span>
+              </div>
+
+              <div class="rule-item">
+                <div class="rule-number">1</div>
+                <div class="rule-text"><strong>Total time: 20 minutes.</strong> The timer counts down continuously and cannot be paused.</div>
+              </div>
+
+              <div class="rule-item">
+                <div class="rule-number">2</div>
+                <div class="rule-text"><strong>Total questions: 50.</strong> Each candidate receives a uniquely randomized question set from the Mind Hack vault.</div>
+              </div>
+
+              <div class="rule-item">
+                <div class="rule-number">3</div>
+                <div class="rule-text"><strong>Single correct answer:</strong> Each question contains exactly one objectively verified solution.</div>
+              </div>
+
+              <div class="rule-item">
+                <div class="rule-number">4</div>
+                <div class="rule-text"><strong>Skip & Mark:</strong> You can skip any question and return to answer it later using the palette.</div>
+              </div>
+
+              <div class="rule-item">
+                <div class="rule-number">5</div>
+                <div class="rule-text"><strong>Auto-submission:</strong> The challenge will automatically submit when the countdown reaches 00:00.</div>
+              </div>
+
+              <div class="rule-item">
+                <div class="rule-number">6</div>
+                <div class="rule-text"><strong>No refreshing:</strong> Do not refresh or navigate away from the browser during the competition.</div>
+              </div>
+
+              <div class="rule-item">
+                <div class="rule-number text-danger border-danger">7</div>
+                <div class="rule-text text-warning"><strong>Zero-Tolerance Anti-Cheat:</strong> Switching tabs or minimizing the browser window results in <strong>IMMEDIATE AUTOMATIC ELIMINATION and score forfeiture!</strong> Exactly <strong>ONE attempt</strong> is permitted per team for college selection.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Team Registration Modal Before Starting -->
+  <div class="modal fade" id="candidateRegModal" tabindex="-1" aria-labelledby="candidateRegModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-color: rgba(0, 242, 254, 0.4); box-shadow: 0 0 35px rgba(0, 242, 254, 0.25);">
+        <div class="modal-header">
+          <h5 class="modal-title font-display text-neon-cyan" id="candidateRegModalLabel">
+            <i class="fa-solid fa-users-gear me-2"></i> Team Registration
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-4">
+          <p class="text-secondary small mb-3">
+            Please register your official team name before starting the 20-minute MIND HACK competition. Each team name must be unique.
+          </p>
+
+          <form id="candidateRegForm" onsubmit="return false;">
+            <div class="mb-3">
+              <label class="form-label small text-light text-uppercase fw-bold">
+                <i class="fa-solid fa-users text-neon-cyan me-1"></i> Team Name
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-neon-cyan"><i class="fa-solid fa-user-group"></i></span>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="candidateNameInput" placeholder="e.g. Cyber Hawks / Team Alpha" required autocomplete="off">
+              </div>
+              <!-- Error feedback container for duplicate team names -->
+              <div class="text-danger small mt-2 d-none font-display fw-bold" id="teamNameError">
+                <i class="fa-solid fa-circle-exclamation me-1"></i> Team Name already exists! Please choose a unique team name.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small text-light text-uppercase fw-bold">Team ID / Access Code</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-neon-cyan"><i class="fa-solid fa-hashtag"></i></span>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="candidateIdInput" value="TEAM-2026-088" required>
+              </div>
+              <div class="form-text text-muted small">Unique team tracking identifier.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small text-light text-uppercase fw-bold">College / Department</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-neon-cyan"><i class="fa-solid fa-building-columns"></i></span>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="candidateCollegeInput" placeholder="e.g. Dept of Computer Science & Engg">
+              </div>
+            </div>
+
+            <div class="alert alert-danger border-danger border-opacity-50 py-2 d-flex align-items-center gap-2 mb-0 mt-3">
+              <i class="fa-solid fa-triangle-exclamation text-danger fs-5"></i>
+              <span class="small"><strong>Zero-Tolerance Anti-Cheat:</strong> Any team switching tabs or leaving the exam window will be <strong>IMMEDIATELY ELIMINATED</strong>. Exactly <strong>ONE attempt per team</strong> is permitted.</span>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="cyber-btn cyber-btn-outline" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="cyber-btn cyber-btn-primary" id="submitCandidateRegBtn">
+            <i class="fa-solid fa-play"></i> Start Challenge
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Authentication Modal -->
+  <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-color: rgba(0, 242, 254, 0.4); box-shadow: 0 0 35px rgba(0, 242, 254, 0.2);">
+        <div class="modal-header">
+          <h5 class="modal-title font-display text-neon-cyan">
+            <i class="fa-solid fa-user-shield me-2"></i> Admin Authentication
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="ModalHelper.hide('adminLoginModal');" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-4">
+          <p class="text-light-50 small mb-3">
+            Enter administrator proctor credentials to access the live candidate command center.
+          </p>
+          <form id="adminLoginForm" onsubmit="return false;">
+            <div class="mb-3">
+              <label class="form-label small text-light text-uppercase fw-bold">Admin Username</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-neon-cyan"><i class="fa-solid fa-user"></i></span>
+                <input type="text" class="form-control bg-dark text-light border-secondary" id="adminUsernameInput" placeholder="admin" autocomplete="username" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small text-light text-uppercase fw-bold">Admin Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-neon-cyan"><i class="fa-solid fa-key"></i></span>
+                <input type="password" class="form-control bg-dark text-light border-secondary" id="adminPasswordInput" placeholder="••••••••" autocomplete="current-password" required>
+              </div>
+            </div>
+            <!-- Error message feedback -->
+            <div class="text-danger small mt-2 d-none font-display fw-bold" id="adminLoginError">
+              <i class="fa-solid fa-circle-exclamation me-1"></i> Invalid username or password! Access denied.
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="cyber-btn cyber-btn-outline" data-bs-dismiss="modal" onclick="ModalHelper.hide('adminLoginModal');">Cancel</button>
+          <button type="button" class="cyber-btn cyber-btn-primary" id="submitAdminLoginBtn">
+            <i class="fa-solid fa-right-to-bracket me-1"></i> Login to Admin
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clean Footer -->
+  <footer class="cyber-footer">
+    <div class="container text-center">
+      <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+        <i class="fa-solid fa-brain text-neon-cyan"></i>
+        <span class="font-display fw-bold text-light">MIND HACK</span>
+        <span>— Brain Challenge Competition</span>
+      </div>
+      <p class="mb-0 text-muted small">
+        Round 1 • 20 Minutes • 50 Questions • Built with HTML5, CSS3, Vanilla JavaScript & Bootstrap 5
+      </p>
+    </div>
+  </footer>
+
+  <!-- Question Database & Game Logic (Local first, loads instantly) -->
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+
+  <!-- Optional Bootstrap Bundle JS (Deferred, non-blocking) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+</body>
+</html>

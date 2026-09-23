@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIND HACK – Proctor Command Center | Admin Monitoring</title>
+  
+  <!-- Google Fonts: Poppins & Orbitron -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Cyberpunk Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Admin Session Security Guard -->
+  <script>
+    if (sessionStorage.getItem('mindhack_admin_authenticated') !== 'true') {
+      window.location.replace('index.html#admin-login');
+    }
+  </script>
+</head>
+<body id="adminDashboardRoot" class="page-brain-bg">
+
+  <!-- Admin Top Navigation Header -->
+  <header class="glass-nav py-3 sticky-top">
+    <div class="container-fluid px-lg-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+      
+      <div class="d-flex align-items-center gap-3">
+        <a href="index.html" class="brand-logo">
+          <div class="brand-icon-box" style="width: 40px; height: 40px;">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <div>
+            <h1 class="brand-title" style="font-size: 1.25rem;">MIND HACK</h1>
+            <span class="brand-subtitle" style="font-size: 0.7rem;">Proctor Command Center</span>
+          </div>
+        </a>
+        <span class="status-pill status-pill-live d-none d-md-inline-flex ms-2">
+          <span class="pulse-dot"></span> Live Proctoring Active
+        </span>
+      </div>
+
+      <!-- Proctor Quick Tools -->
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <button type="button" class="cyber-btn cyber-btn-outline py-2 px-3 fs-6" id="autoRefreshToggleBtn">
+          <i class="fa-solid fa-arrows-rotate fa-spin text-neon-green"></i> Auto-Refresh: ON (3s)
+        </button>
+        <button type="button" class="cyber-btn cyber-btn-outline py-2 px-3 fs-6" id="seedSampleBtn" title="Populate realistic demo candidates for evaluation">
+          <i class="fa-solid fa-users-viewfinder text-neon-cyan"></i> Seed Demo Data
+        </button>
+        <button type="button" class="cyber-btn cyber-btn-outline py-2 px-3 fs-6" id="exportCsvBtn" title="Export candidate results to CSV">
+          <i class="fa-solid fa-file-arrow-down text-info"></i> Export CSV
+        </button>
+        <button type="button" class="cyber-btn cyber-btn-danger py-2 px-3 fs-6" id="resetAllBtn" title="Clear all candidates">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+        <a href="index.html" class="cyber-btn cyber-btn-primary py-2 px-3 fs-6 ms-1">
+          <i class="fa-solid fa-play"></i> Arena
+        </a>
+        <button type="button" class="cyber-btn cyber-btn-outline py-2 px-3 fs-6 ms-1" id="adminLogoutBtn" title="Logout of Admin Panel">
+          <i class="fa-solid fa-arrow-right-from-bracket text-danger me-1"></i> Logout
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Proctoring Dashboard -->
+  <main class="py-4">
+    <div class="container-fluid px-lg-4">
+      
+      <!-- Key Proctoring Metrics Overview -->
+      <div class="row g-3 mb-4">
+        <!-- Total Registered -->
+        <div class="col-6 col-md-4 col-xl">
+          <div class="stat-card">
+            <div class="stat-icon text-neon-cyan"><i class="fa-solid fa-id-card"></i></div>
+            <div class="stat-value" id="adminStatTotal">0</div>
+            <div class="stat-label">Total Registered</div>
+          </div>
+        </div>
+
+        <!-- In Progress -->
+        <div class="col-6 col-md-4 col-xl">
+          <div class="stat-card">
+            <div class="stat-icon text-info"><i class="fa-solid fa-spinner fa-spin"></i></div>
+            <div class="stat-value text-info" id="adminStatActive">0</div>
+            <div class="stat-label">In Progress</div>
+          </div>
+        </div>
+
+        <!-- Completed -->
+        <div class="col-6 col-md-4 col-xl">
+          <div class="stat-card">
+            <div class="stat-icon text-success"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="stat-value text-success" id="adminStatCompleted">0</div>
+            <div class="stat-label">Completed</div>
+          </div>
+        </div>
+
+        <!-- Eliminated / Disqualified -->
+        <div class="col-6 col-md-4 col-xl">
+          <div class="stat-card" style="border-color: rgba(239, 68, 68, 0.35);">
+            <div class="stat-icon text-danger"><i class="fa-solid fa-ban"></i></div>
+            <div class="stat-value text-danger" id="adminStatEliminated">0</div>
+            <div class="stat-label">Eliminated (Tab Switch)</div>
+          </div>
+        </div>
+
+        <!-- Average Score of Completed -->
+        <div class="col-12 col-md-4 col-xl">
+          <div class="stat-card">
+            <div class="stat-icon text-neon-green"><i class="fa-solid fa-award"></i></div>
+            <div class="stat-value text-neon-green" id="adminStatAvgScore">0.0 / 50</div>
+            <div class="stat-label">Avg Completed Score</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter & Search Toolbar -->
+      <div class="glass-panel p-3 mb-4">
+        <div class="row g-3 align-items-center justify-content-between">
+          
+          <!-- Search Box -->
+          <div class="col-md-5 col-lg-4">
+            <div class="position-relative">
+              <i class="fa-solid fa-magnifying-glass position-absolute text-muted" style="top: 14px; left: 16px;"></i>
+              <input type="text" class="search-input-box" id="adminSearchInput" placeholder="Search team by Team Name, ID, or College...">
+            </div>
+          </div>
+
+          <!-- Filter Pills -->
+          <div class="col-md-7 col-lg-8">
+            <div class="d-flex flex-wrap gap-2 justify-content-md-end">
+              <button type="button" class="filter-btn admin-filter-btn active" data-status-filter="all">
+                All Teams
+              </button>
+              <button type="button" class="filter-btn admin-filter-btn" data-status-filter="in_progress">
+                <i class="fa-solid fa-clock text-info me-1"></i> In Progress
+              </button>
+              <button type="button" class="filter-btn admin-filter-btn" data-status-filter="completed">
+                <i class="fa-solid fa-check text-success me-1"></i> Completed
+              </button>
+              <button type="button" class="filter-btn admin-filter-btn" data-status-filter="eliminated">
+                <i class="fa-solid fa-ban text-danger me-1"></i> Eliminated (Tab Switch)
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Live Participants Monitoring Table -->
+      <div class="glass-panel p-4">
+        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+          <div>
+            <h4 class="font-display fw-bold mb-1">
+              LIVE <span class="text-gradient-cyan">CONTESTANTS MONITOR</span>
+            </h4>
+            <p class="text-muted small mb-0">Real-time surveillance of candidate progress, time elapsed, and tab-switch policy adherence.</p>
+          </div>
+          <span class="badge bg-dark border border-secondary text-secondary small py-2 px-3">
+            <i class="fa-solid fa-shield-halved text-danger me-1"></i> Policy: 1 Tab Switch = Immediate Elimination
+          </span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Team Name</th>
+                <th>Status</th>
+                <th>Tab Violations</th>
+                <th>Progress</th>
+                <th>Score</th>
+                <th>Time Elapsed</th>
+                <th>Proctor Actions</th>
+              </tr>
+            </thead>
+            <tbody id="participantsTableBody">
+              <!-- Rendered dynamically by script.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Team Audit Log Modal -->
+  <div class="modal fade" id="candidateAuditModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content" style="border-color: rgba(0, 242, 254, 0.4); box-shadow: 0 0 40px rgba(0, 242, 254, 0.25);">
+        <div class="modal-header">
+          <h5 class="modal-title font-display text-neon-cyan" id="auditModalTitle">
+            Team Audit Log
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="ModalHelper.hide('candidateAuditModal');" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-4" id="auditModalBody">
+          <!-- Populated dynamically by script.js -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="cyber-btn cyber-btn-outline" data-bs-dismiss="modal" onclick="ModalHelper.hide('candidateAuditModal');">Close Audit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clean Footer -->
+  <footer class="cyber-footer">
+    <div class="container text-center">
+      <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+        <i class="fa-solid fa-user-shield text-neon-cyan"></i>
+        <span class="font-display fw-bold text-light">MIND HACK</span>
+        <span>— Proctor Command Center</span>
+      </div>
+      <p class="mb-0 text-muted small">
+        Round 1 Live Supervision • Anti-Cheat Zero-Tolerance Tab Monitor • Auto-Synchronized Local Storage Engine
+      </p>
+    </div>
+  </footer>
+
+  <!-- Question Database & Game Logic (Local first, loads instantly) -->
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+
+  <!-- Optional Bootstrap Bundle JS (Deferred, non-blocking) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+</body>
+</html>
